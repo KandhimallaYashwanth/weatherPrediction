@@ -1,12 +1,8 @@
-# WEATHER PREDICTION USING LASSO AND RANDOM FOREST REGRESSION.
-
-# google collab link: https://colab.research.google.com/drive/14qMnSftvQVlPlTsjEjXIf-x8voknNyZz?usp=drive_link![image](https://github.com/user-attachments/assets/d12f5859-a66e-4113-8970-57062e9d89f4)
 
 # 🌦️ Weather Prediction Using Lasso and Random Forest Regression
 
 This project is part of an AICTE virtual internship. It aims to predict temperature based on weather-related features using machine learning techniques like **Lasso Regression** and **Random Forest Regressor**.
 
----
 
 ## 📌 Project Objectives
 
@@ -15,7 +11,6 @@ This project is part of an AICTE virtual internship. It aims to predict temperat
 - Deploy a user-friendly web interface using **Streamlit**
 - Enable real-time prediction and visualization
 
----
 
 ## 🗃️ Dataset
 
@@ -23,7 +18,7 @@ This project is part of an AICTE virtual internship. It aims to predict temperat
 - Features: Humidity, Wind Speed, Visibility, Pressure, Summary, Precip Type, Date & Time
 - Target: Temperature (°C)
 
----
+
 
 ## 🛠️ Technologies Used
 
@@ -33,7 +28,7 @@ This project is part of an AICTE virtual internship. It aims to predict temperat
 - **Web App**: Streamlit
 - **Deployment**: Streamlit Cloud
 
----
+
 
 ## 📊 Model Evaluation
 
@@ -44,6 +39,7 @@ This project is part of an AICTE virtual internship. It aims to predict temperat
 
 ✅ **Random Forest outperformed Lasso**, showing near-perfect accuracy.
 
+# google collab link: https://colab.research.google.com/drive/14qMnSftvQVlPlTsjEjXIf-x8voknNyZz?usp=drive_link![image](https://github.com/user-attachments/assets/d12f5859-a66e-4113-8970-57062e9d89f4)
 
 
 
