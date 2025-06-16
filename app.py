@@ -5,16 +5,17 @@ import joblib
 from datetime import datetime
 import matplotlib.pyplot as plt
 
-# Load saved files
+# Load model and preprocessors
 model = joblib.load("lasso_model.pkl")
 scaler = joblib.load("scaler.pkl")
 feature_columns = joblib.load("feature_columns.pkl")
 
+# Streamlit app setup
 st.set_page_config(page_title="Weather Predictor", page_icon="🌤️")
 st.title("🌦️ Weather Temperature Predictor")
 st.markdown("Predict temperature using machine learning models trained on historical weather data.")
 
-# Sidebar inputs
+# Sidebar for input
 st.sidebar.header("Enter Weather Details:")
 humidity = st.sidebar.slider("Humidity", 0.0, 1.0, 0.75)
 wind_speed = st.sidebar.slider("Wind Speed (km/h)", 0.0, 60.0, 10.0)
@@ -26,7 +27,7 @@ precip_type = st.sidebar.selectbox("Precipitation Type", ["rain", "snow", "None"
 date = st.sidebar.date_input("Date", datetime.now())
 hour = st.sidebar.slider("Hour", 0, 23, 12)
 
-# Prepare input
+# Input dictionary
 input_dict = {
     'Humidity': humidity,
     'Wind Speed (km/h)': wind_speed,
@@ -41,6 +42,7 @@ input_dict = {
     'Hour': hour
 }
 
+# Input preparation
 def prepare_input(input_data):
     df = pd.DataFrame([input_data])
     df = pd.get_dummies(df, columns=['Summary', 'Precip Type'], drop_first=True)
@@ -50,20 +52,29 @@ def prepare_input(input_data):
         if col not in df.columns:
             df[col] = 0
     df = df[feature_columns]
-    df_scaled = scaler.transform(df)
-    return df_scaled
+    return scaler.transform(df)
 
-# Predict temperature
+# Prediction
 if st.button("Predict Temperature"):
-    processed_input = prepare_input(input_dict)
-    prediction = model.predict(processed_input)[0]
+    X_input = prepare_input(input_dict)
+    prediction = model.predict(X_input)[0]
     st.success(f"🌡️ Predicted Temperature: **{prediction:.2f} °C**")
 
-    # Optional visualization of entered inputs
+    # --- Simple bar chart using st.bar_chart ---
     st.subheader("📊 Feature Input Chart")
-    if st.checkbox("Show Input Feature Chart"):
-        sample_data = pd.DataFrame({
+    if st.checkbox("Show Input Feature Chart (Simple)"):
+        chart_df = pd.DataFrame({
             "Feature": ["Humidity", "Wind Speed", "Pressure", "Apparent Temp", "Visibility"],
             "Value": [humidity, wind_speed, pressure, apparent_temp, visibility]
         })
-        st.bar_chart(sample_data.set_index("Feature"))
+        st.bar_chart(chart_df.set_index("Feature"))
+
+    # --- Optional: fancier plot with matplotlib ---
+    if st.checkbox("Show Input Feature Chart (Matplotlib)"):
+        features = ["Humidity", "Wind Speed", "Pressure", "Apparent Temp", "Visibility"]
+        values = [humidity, wind_speed, pressure, apparent_temp, visibility]
+        fig, ax = plt.subplots()
+        ax.bar(features, values, color='skyblue')
+        ax.set_ylabel("Value")
+        ax.set_title("Input Weather Features")
+        st.pyplot(fig)
