@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import joblib
 from datetime import datetime
-
+import matplotlib.pyplot as plt
 
 # Load saved files
 model = joblib.load("lasso_model.pkl")
@@ -16,7 +16,6 @@ st.markdown("Predict temperature using machine learning models trained on histor
 
 # Sidebar inputs
 st.sidebar.header("Enter Weather Details:")
-
 humidity = st.sidebar.slider("Humidity", 0.0, 1.0, 0.75)
 wind_speed = st.sidebar.slider("Wind Speed (km/h)", 0.0, 60.0, 10.0)
 pressure = st.sidebar.slider("Pressure (millibars)", 900.0, 1050.0, 1015.0)
@@ -44,21 +43,15 @@ input_dict = {
 
 def prepare_input(input_data):
     df = pd.DataFrame([input_data])
-
-    # One-hot encode categorical columns
     df = pd.get_dummies(df, columns=['Summary', 'Precip Type'], drop_first=True)
 
-    # Add any missing columns
+    # Fill missing columns
     for col in feature_columns:
         if col not in df.columns:
             df[col] = 0
-
-    # Reorder columns
     df = df[feature_columns]
 
-    # Scale
     df_scaled = scaler.transform(df)
-
     return df_scaled
 
 # Predict button
