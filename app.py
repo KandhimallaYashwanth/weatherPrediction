@@ -45,17 +45,25 @@ def prepare_input(input_data):
     df = pd.DataFrame([input_data])
     df = pd.get_dummies(df, columns=['Summary', 'Precip Type'], drop_first=True)
 
-    # Fill missing columns
+    # Add missing columns
     for col in feature_columns:
         if col not in df.columns:
             df[col] = 0
     df = df[feature_columns]
-
     df_scaled = scaler.transform(df)
     return df_scaled
 
-# Predict button
+# Predict temperature
 if st.button("Predict Temperature"):
     processed_input = prepare_input(input_dict)
     prediction = model.predict(processed_input)[0]
     st.success(f"🌡️ Predicted Temperature: **{prediction:.2f} °C**")
+
+    # Optional visualization of entered inputs
+    st.subheader("📊 Feature Input Chart")
+    if st.checkbox("Show Input Feature Chart"):
+        sample_data = pd.DataFrame({
+            "Feature": ["Humidity", "Wind Speed", "Pressure", "Apparent Temp", "Visibility"],
+            "Value": [humidity, wind_speed, pressure, apparent_temp, visibility]
+        })
+        st.bar_chart(sample_data.set_index("Feature"))
