@@ -4,6 +4,7 @@ import numpy as np
 import joblib
 from datetime import datetime
 
+
 # Load saved files
 model = joblib.load("lasso_model.pkl")
 scaler = joblib.load("scaler.pkl")
