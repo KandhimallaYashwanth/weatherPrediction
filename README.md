@@ -3,6 +3,7 @@
 
 This project is part of an AICTE virtual internship. It aims to predict temperature based on weather-related features using machine learning techniques like **Lasso Regression** and **Random Forest Regressor**.
 
+🚀 **Live Demo**:  (https://weatherprediction-l.streamlit.app/)
 
 ## 📌 Project Objectives
 
