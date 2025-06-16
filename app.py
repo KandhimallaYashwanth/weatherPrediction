@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import joblib
 from datetime import datetime
-import matplotlib.pyplot as plt
 
 # Load model and preprocessors
 model = joblib.load("lasso_model.pkl")
@@ -59,22 +58,3 @@ if st.button("Predict Temperature"):
     X_input = prepare_input(input_dict)
     prediction = model.predict(X_input)[0]
     st.success(f"🌡️ Predicted Temperature: **{prediction:.2f} °C**")
-
-    # --- Simple bar chart using st.bar_chart ---
-    st.subheader("📊 Feature Input Chart")
-    if st.checkbox("Show Input Feature Chart (Simple)"):
-        chart_df = pd.DataFrame({
-            "Feature": ["Humidity", "Wind Speed", "Pressure", "Apparent Temp", "Visibility"],
-            "Value": [humidity, wind_speed, pressure, apparent_temp, visibility]
-        })
-        st.bar_chart(chart_df.set_index("Feature"))
-
-    # --- Optional: fancier plot with matplotlib ---
-    if st.checkbox("Show Input Feature Chart (Matplotlib)"):
-        features = ["Humidity", "Wind Speed", "Pressure", "Apparent Temp", "Visibility"]
-        values = [humidity, wind_speed, pressure, apparent_temp, visibility]
-        fig, ax = plt.subplots()
-        ax.bar(features, values, color='skyblue')
-        ax.set_ylabel("Value")
-        ax.set_title("Input Weather Features")
-        st.pyplot(fig)
